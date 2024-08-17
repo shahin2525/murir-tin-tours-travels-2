@@ -19,6 +19,41 @@ const createUser = async (req: Request, res: Response) => {
   }
 }
 
+const getAllUser = async (req: Request, res: Response) => {
+  try {
+    const result = await UserService.getAllUserIntoDB()
+    res.status(200).json({
+      status: 'success',
+      message: 'get all user successfully',
+      data: result,
+    })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(500).json({
+      status: 'fail',
+      message: error.message || 'something went wrong',
+    })
+  }
+}
+const getSingleUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params
+    const result = await UserService.getSingleUser(userId)
+    res.status(200).json({
+      status: 'success',
+      message: 'get single user successfully',
+      data: result,
+    })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(500).json({
+      status: 'fail',
+      message: error.message || 'something went wrong',
+    })
+  }
+}
 export const UserController = {
   createUser,
+  getAllUser,
+  getSingleUser,
 }
