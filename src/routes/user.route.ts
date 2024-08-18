@@ -4,6 +4,6 @@ const router = express.Router()
 router.post('/create-user', UserController.createUser)
 router.get('/', UserController.getAllUser)
 router.get('/:userId', UserController.getSingleUser)
-router.get('/:userId', UserController.updateUser)
-router.get('/:userId', UserController.deleteUser)
+router.patch('/:userId', UserController.updateUser)
+router.delete('/:userId', UserController.deleteUser)
 export const UserRouter = router
