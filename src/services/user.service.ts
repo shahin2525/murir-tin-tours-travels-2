@@ -13,8 +13,24 @@ const getSingleUser = async (id: string): Promise<IUser | null> => {
   const result = await User.findOne({ _id: id })
   return result
 }
+const updateUser = async (
+  id: string,
+  userData: IUser,
+): Promise<IUser | null> => {
+  const result = await User.findByIdAndUpdate(id, userData, {
+    new: true,
+    runValidators: true,
+  })
+  return result
+}
+const deleteUser = async (id: string): Promise<IUser | null> => {
+  const result = await User.findByIdAndDelete(id)
+  return result
+}
 export const UserService = {
   createUserIntoDB,
   getAllUserIntoDB,
   getSingleUser,
+  updateUser,
+  deleteUser,
 }
