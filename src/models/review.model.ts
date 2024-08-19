@@ -1,6 +1,7 @@
-import mongoose, { model, Schema } from 'mongoose'
+import { model, Schema } from 'mongoose'
+import { IReview } from '../interfaces/review.interface'
 
-const reviewSchema = new Schema({
+const reviewSchema = new Schema<IReview>({
   review: {
     type: String,
     required: [true, 'A review must have text'],
@@ -17,17 +18,17 @@ const reviewSchema = new Schema({
     default: Date.now,
   },
   tour: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Tour',
     required: [true, 'Review must belong to a tour'],
   },
   user: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'User',
     required: [true, 'Review must belong to a user'],
   },
 })
 
-const Review = model('Review', reviewSchema)
+const Review = model<IReview>('Review', reviewSchema)
 
 export default Review
