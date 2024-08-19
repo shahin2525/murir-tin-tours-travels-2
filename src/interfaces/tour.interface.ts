@@ -1,3 +1,5 @@
+import { Model } from 'mongoose'
+
 interface ITour {
   name: string
   durationHours: number
@@ -13,4 +15,15 @@ interface ITour {
   slug: string
 }
 
-export { ITour }
+interface ITourMethods {
+  getNextNearestStartDateAndEndDate(): {
+    nearestStartDate: Date | null
+    estimatedEndDate: Date | null
+  }
+}
+
+// Create a new Model type that knows about IUserMethods...
+// eslint-disable-next-line @typescript-eslint/ban-types
+type TourModel = Model<ITour, {}, ITourMethods>
+
+export { ITour, ITourMethods, TourModel }

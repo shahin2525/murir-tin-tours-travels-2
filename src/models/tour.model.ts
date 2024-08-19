@@ -1,7 +1,8 @@
 import { model, Schema } from 'mongoose'
-import { ITour } from '../interfaces/tour.interface'
+import { ITour, ITourMethods, TourModel } from '../interfaces/tour.interface'
+import slugify from 'slugify'
 
-const tourSchema = new Schema<ITour>(
+const tourSchema = new Schema<ITour, TourModel, ITourMethods>(
   {
     name: {
       type: String,
@@ -43,7 +44,6 @@ const tourSchema = new Schema<ITour>(
     locations: [String],
     slug: {
       type: String,
-      required: [true, 'A tour must have a slug'],
     },
   },
   {
@@ -55,6 +55,35 @@ const tourSchema = new Schema<ITour>(
 tourSchema.virtual('durationDays').get(function () {
   return this.durationHours / 24
 })
+
+// pre hook for adding slug
+
+tourSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, {
+    lower: true,
+  })
+  next()
+})
+
+tourSchema.methods.getNextNearestStartDateAndEndDate = function (): {
+  nearestStartDate: Date | null
+  estimatedEndDate: Date | null
+} {
+  const today = new Date()
+  const futureDates = this.startDates.filter((startDate: Date) => {
+    return startDate > today
+  })
+  futureDates.sort((a: Date, b: Date) => a.getTime() - b.getTime())
+  const nearestStartDate = futureDates[0]
+  const estimatedEndDate = new Date(
+    nearestStartDate.getTime() + this.durationHours * 60 * 60 * 1000,
+  )
+  return {
+    nearestStartDate,
+    estimatedEndDate,
+  }
+}
+
 const Tour = model<ITour>('Tour', tourSchema)
 
 export default Tour
