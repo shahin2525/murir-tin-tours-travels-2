@@ -86,10 +86,29 @@ const deleteTour = async (req: Request, res: Response) => {
     })
   }
 }
+
+const getNextSchedule = async (req: Request, res: Response) => {
+  try {
+    const { tourId } = req.params
+    const result = await TourService.getNextSchedule(tourId)
+    res.status(200).json({
+      status: 'success',
+      message: 'get single tour successfully',
+      data: result,
+    })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(500).json({
+      status: 'fail',
+      message: error.message || 'something went wrong',
+    })
+  }
+}
 export const TourController = {
   createTour,
   getAllTour,
   getSingleTour,
   updateTour,
   deleteTour,
+  getNextSchedule,
 }
