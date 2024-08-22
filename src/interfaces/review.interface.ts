@@ -9,6 +9,7 @@ interface IReview {
 }
 
 interface IReviewModel extends Model<IReview> {
+  // eslint-disable-next-line no-unused-vars
   calRatingAvg(tourId: Schema.Types.ObjectId): Promise<void>
 }
 
