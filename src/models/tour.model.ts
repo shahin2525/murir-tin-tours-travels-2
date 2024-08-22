@@ -103,6 +103,12 @@ tourSchema.methods.getNextNearestStartDateAndEndDate = function (): {
   }
 }
 
+tourSchema.virtual('review', {
+  ref: 'Review',
+  foreignField: 'tour',
+  localField: '_id',
+})
+
 const Tour = model<ITour, TourModel>('Tour', tourSchema)
 
 export default Tour
