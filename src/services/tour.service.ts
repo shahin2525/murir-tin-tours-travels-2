@@ -10,7 +10,7 @@ const getAllTourIntoDB = async (): Promise<ITour[]> => {
   return result
 }
 const getSingleTour = async (id: string): Promise<ITour | null> => {
-  const result = await Tour.findOne({ _id: id }).populate('reviews')
+  const result = await Tour.findOne({ _id: id }).populate('review')
   return result
 }
 const updateTour = async (

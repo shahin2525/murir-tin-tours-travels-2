@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose'
-import { IReview } from '../interfaces/review.interface'
+import { IReview, IReviewModel } from '../interfaces/review.interface'
 
 const reviewSchema = new Schema<IReview>(
   {
@@ -37,6 +37,6 @@ const reviewSchema = new Schema<IReview>(
 
 reviewSchema.index({ user: 1, tour: 1 }, { unique: true })
 
-const Review = model<IReview>('Review', reviewSchema)
+const Review = model<IReview, IReviewModel>('Review', reviewSchema)
 
 export default Review
